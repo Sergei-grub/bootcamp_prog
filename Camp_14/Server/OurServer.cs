@@ -13,7 +13,7 @@ namespace Server
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 5555);
             server.Start();
 
-            LoopClients();
+            LoopClients();  
         }
 
         void LoopClients()
@@ -30,18 +30,18 @@ namespace Server
         void HandleClient(TcpClient client)
         {
             StreamReader sReader = new StreamReader(client.GetStream(), Encoding.UTF8);
+            StreamWriter sWriter = new StreamWriter(client.GetStream(), Encoding.UTF8);
 
             while (true)
             {
                 string message = sReader.ReadLine();
                 Console.WriteLine($"Клиент написал - {message}");
 
-
+                Console.WriteLine("Дайте сообщение клиенту: ");
+                string answer = Console.ReadLine();
+                sWriter.WriteLine(answer);
+                sWriter.Flush();
             }
-
-
         }
-
-
     }
 }
